@@ -2,46 +2,43 @@
 <html lang="pt-br">
 <head>
 <meta charset="utf-8">
-<title>LayerCraft</title>
+<title>LayerCraft by MineDevs</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#080808;color:#fff;font-family: monospace;overflow-x:hidden}
+body{background:#070707;color:#fff;font-family:monospace;overflow:hidden}
+body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);background-size:40px 40px;z-index:-1}
+#recepcao{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+#recepcao h1{font-size:58px;letter-spacing:10px;font-weight:900}
+#recepcao h1 span{color:transparent;-webkit-text-stroke:1px #fff}
+#recepcao .sub{color:#666;margin-top:8px;letter-spacing:4px;font-size:12px}
+.modos{display:flex;gap:15px;margin-top:35px;flex-wrap:wrap;justify-content:center;max-width:500px}
+.btn-modo{width:180px;height:110px;background:#101010;border:1px solid #222;border-radius:18px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:.35s}
+.btn-modo b{font-size:14px}.btn-modo small{color:#555;font-size:10px}
+.btn-modo:hover{border-color:#fff;background:#fff;color:#000;transform:translateY(-6px);box-shadow:0 0 30px rgba(255,255,255,.25)}
+.btn-breve{opacity:.25;cursor:not-allowed}
+#app{display:none;height:100vh;flex-direction:column}
+header{padding:14px 18px;border-bottom:1px solid #1a1a1a;display:flex;justify-content:space-between;align-items:center;background:#0a0a0a}
+#voltar{background:#111;border:1px solid #333;color:#fff;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:12px}
+.wrap{flex:1;display:flex;overflow:hidden}
+.lista{width:230px;background:#0c0c0c;border-right:1px solid #1a1a1a;padding:12px;overflow:auto}
+.view{flex:1;overflow:auto;padding:15px;display:flex;flex-direction:column;align-items:center}
+.mats{width:250px;background:#0c0c0c;border-left:1px solid #1a1a1a;padding:12px;overflow:auto}
+.pill{width:100%;padding:10px;border:0;background:#171717;color:#bbb;border-radius:10px;margin-bottom:6px;text-align:left;cursor:pointer}
+.pill.ativo,.pill:hover{background:#fff;color:#000}
+#grid{display:grid;grid-template-columns:repeat(8,38px);gap:4px;margin:18px 0}
+.bloco{width:38px;height:38px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#000}
+.info-camadas{background:#111;border:1px solid #222;border-radius:12px;padding:10px 18px;margin-top:10px;display:flex;gap:15px;align-items:center;font-size:12px}
+.info-camadas b{color:#fff;font-size:14px}
+.barra{width:100px;height:6px;background:#222;border-radius:10px;overflow:hidden}
+.barra div{height:100%;background:#fff;transition:.3s}
+input[type=range]{width:260px;accent-color:#fff}
+</style>
+</head>
+<body>
 
-/* FUNDO PRETO E BRANCO COM DETALHES */
-body::before{
-  content:"";position:fixed;top:0;left:0;width:100%;height:100%;
-  background: 
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 40px 40px;
-  z-index:-1;
-}
-body::after{
-  content:"";position:fixed;top:0;left:0;width:100%;height:100%;
-  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), transparent 70%);
-  z-index:-1;
-}
-
-/* TELA DE RECEPÇÃO */
-#recepcao{
-  height:100vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;
-  animation: fadeIn 1s;
-}
-#recepcao h1{font-size:60px;font-weight:900;letter-spacing:8px}
-#recepcao h1 span{color:#fff;text-shadow: 0 0 20px #fff;}
-#recepcao p{color:#888;margin-top:10px;letter-spacing:3px}
-
-.modos{display:flex;gap:20px;margin-top:40px;flex-wrap:wrap;justify-content:center}
-
-.btn-modo{
-  width:200px;height:120px;background:#111;border:1px solid #222;
-  border-radius:16px;cursor:pointer;position:relative;overflow:hidden;
-  transition:0.3s;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:10px;
-}
-.btn-modo b{font-size:16px;letter-spacing:2px}
-.btn-modo small{color:#666;font-size:11px}
-
-/*
+<div id="recepcao">
+  <div style="font-size:10px;letter-spacing:6px;color:#333">BY MINEDEVS</div>
+  <h1>LAYER<span>CRAFT</span></h1>
+  <div class="sub">MINECRAFT LAYER BY LAYER</div>
+  
