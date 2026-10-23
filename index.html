@@ -3,159 +3,352 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LAYERCRAFT by MineDevs</title>
 <style>
+:root{--bg:#06121b;--panel:#0b1b27;--border:#173344;--green:#38f5a0;--text:#edf6ff;--muted:#a6bbcc}
 *{box-sizing:border-box}
-body{margin:0;background:#10151b;color:white;font-family:Arial,sans-serif}
-header{padding:24px 16px;text-align:center;background:linear-gradient(135deg,#172c27,#182333)}
-.logo{font-size:clamp(30px,8vw,54px);font-weight:900;letter-spacing:2px;color:#7df5a2;animation:entrada 1s ease}
-@keyframes entrada{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
-header p{color:#c1d3cc}
-main{max-width:950px;margin:auto;padding:18px}
-h2{color:#7df5a2}
-select,button{padding:12px;border:0;border-radius:9px;font-size:15px}
-select{background:#26343e;color:white;width:100%;margin:8px 0}
-button{background:#70e89a;color:#102017;font-weight:bold;cursor:pointer;margin:4px}
-button:active{transform:scale(.97)}
-.painel{background:#19232c;padding:16px;border-radius:14px;margin:16px 0}
-#cena{height:320px;background:#101820;border-radius:12px;overflow:hidden}
-.botoes{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
-#materiais{line-height:1.9;color:#d9e6df}
-footer{text-align:center;padding:25px;color:#8d9e95}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+button,select{font:inherit}
+header{display:flex;align-items:center;gap:24px;flex-wrap:wrap;padding:16px 22px;border-bottom:1px solid var(--border);background:#07131e}
+.logo{font-size:clamp(22px,4vw,32px);font-weight:900;color:var(--green);letter-spacing:1px}
+.logo small{display:block;color:var(--muted);font-size:13px;letter-spacing:0;font-weight:400}
+nav{display:flex;gap:20px;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;padding:10px}
+nav a:hover{color:var(--green)}
+main{max-width:1450px;margin:auto;padding:24px}
+h1{font-size:clamp(27px,4vw,38px);margin:5px 0}
+h2{font-size:20px}
+p{line-height:1.6}
+.muted{color:var(--muted)}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 20px}
+.tag{border:1px solid #16875d;color:var(--green);padding:7px 13px;border-radius:22px;font-size:13px}
+.layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(270px,1fr);gap:22px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:18px;min-width:0}
+.viewer{position:relative;border:1px solid var(--border);border-radius:15px;overflow:hidden;background:radial-gradient(ellipse at center,#102b35,#07131c 75%)}
+canvas{display:block;width:100%;height:440px;touch-action:none;cursor:grab}
+canvas:active{cursor:grabbing}
+.tools{position:absolute;top:14px;left:14px;display:grid;gap:6px}
+.tools button,.iconbtn{background:#142a38;color:white;border:1px solid #244252;border-radius:9px;padding:10px;cursor:pointer}
+.tools button{font-size:12px}
+.iconbtn{position:absolute;top:14px;right:14px}
+select{background:#102531;color:white;border:1px solid var(--border);padding:12px;border-radius:9px;width:100%;margin:8px 0 14px}
+button.primary{background:var(--green);color:#062016;border:0;font-weight:bold;padding:12px 15px;border-radius:9px;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+button:hover{filter:brightness(1.1)}
+.layercontrols{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.layercontrols strong{white-space:nowrap}
+.material{display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid #17303e;font-size:14px}
+.material:last-child{border-bottom:0}
+.swatch{width:30px;height:30px;border:1px solid #ffffff40;border-radius:5px;flex-shrink:0;image-rendering:pixelated}
+.amount{margin-left:auto}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.thumb{background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:12px;color:var(--muted);cursor:pointer;text-align:center}
+.thumb.active{border:2px solid var(--green);color:var(--green)}
+.thumb .emoji{font-size:28px;display:block;margin-bottom:7px}
+.note{font-size:13px;color:var(--muted)}
+footer{text-align:center;padding:24px;color:#8197a6;font-size:13px}
+@media(max-width:850px){
+ main{padding:14px}
+ .layout{grid-template-columns:1fr}
+ canvas{height:340px}
+ header{gap:10px;padding:14px}
+ nav{gap:5px}
+ .panel{padding:14px}
+}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">LAYERCRAFT</div>
-  <p>by MineDevs · Construa bloco por bloco</p>
-  <button onclick="document.getElementById('construtor').scrollIntoView({behavior:'smooth'})">Começar a construir</button>
+ <div class="logo">⬡ LAYERCRAFT<small>by MineDevs</small></div>
+ <nav>
+  <a href="#inicio">⌂ Início</a>
+  <a href="#construcoes">▧ Construções</a>
+  <a href="#sobre">ⓘ Sobre</a>
+ </nav>
 </header>
 
-<main id="construtor">
-  <section class="painel">
-    <h2>Escolha sua construção</h2>
-    <select id="construcao" onchange="iniciar()">
-      <option value="casa">Casa de madeira</option>
-      <option value="torre">Torre de pedra</option>
-      <option value="farm">Farm de plantação</option>
-    </select>
-    <div id="cena"></div>
-    <p id="info">Carregando construção...</p>
-    <div class="botoes">
-      <button onclick="mudar(-1)">← Camada anterior</button>
-      <button onclick="mudar(1)">Próxima camada →</button>
-      <button onclick="mostrarTudo()">Mostrar tudo</button>
+<main id="inicio">
+ <section id="construcoes">
+  <h1>⌂ Casa Moderna</h1>
+  <p class="muted">Uma casa moderna para seu mundo survival. Monte a construção usando blocos de Minecraft, camada por camada.</p>
+  <div class="tags"><span class="tag">Survival</span><span class="tag">Moderna</span><span class="tag">Média</span><span class="tag">Blocos normais</span></div>
+  <div class="layout">
+   <section>
+    <div class="viewer">
+     <canvas id="world"></canvas>
+     <div class="tools">
+      <button onclick="resetCamera()">⟳ Girar</button>
+      <button onclick="zoom(-1)">⌕ Zoom +</button>
+      <button onclick="zoom(1)">⌕ Zoom -</button>
+      <button onclick="showAll()">▦ Tudo</button>
+     </div>
+     <button class="iconbtn" onclick="resetCamera()">⟳</button>
     </div>
-    <h2>Materiais desta camada</h2>
-    <div id="materiais"></div>
-  </section>
-</main>
-<footer>LAYERCRAFT by MineDevs · Feito para jogadores de Minecraft</footer>
+    <div class="thumbs">
+     <button class="thumb active" onclick="selectView(0,this)"><span class="emoji">🏡</span>Frente</button>
+     <button class="thumb" onclick="selectView(1,this)"><span class="emoji">🏠</span>Lateral</button>
+     <button class="thumb" onclick="selectView(2,this)"><span class="emoji">🏘️</span>Traseira</button>
+    </div>
+    <p class="note">Arraste a construção para girar. Use dois dedos para aproximar ou afastar no celular, ou os controles acima.</p>
+   </section>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script>
-const cena=document.getElementById('cena');
-const renderer=new THREE.WebGLRenderer({antialias:true});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.setSize(cena.clientWidth,cena.clientHeight);
-renderer.setClearColor(0x101820);
-cena.appendChild(renderer.domElement);
+   <aside>
+    <div class="panel">
+     <h2>⬡ Sobre a construção</h2>
+     <p class="muted">Casa moderna com dois andares, grandes janelas, garagem, jardim e piscina.</p>
+     <p>▱ Total de camadas: <strong id="total">8</strong></p>
+     <p>▧ Tamanho: <strong>15 × 12 × 8</strong> blocos</p>
+     <label for="build">Escolha uma construção</label>
+     <select id="build" onchange="changeBuild()">
+      <option value="house">Casa moderna</option>
+      <option value="tower">Torre de pedra</option>
+      <option value="farm">Farm de plantação</option>
+     </select>
+    </div>
+    <div class="panel">
+     <h2>▱ Camadas</h2>
+     <div class="layercontrols">
+      <button class="primary" id="prev" onclick="changeLayer(-1)">← Anterior</button>
+      <strong id="counter">1 de 8</strong>
+      <button class="primary" id="next" onclick="changeLayer(1)">Próxima →</button>
+     </div>
+     <p class="note" id="layernote">Visualizando os blocos da primeira camada.</p>
+     <button class="primary" style="width:100%" onclick="showAll()">Mostrar construção completa</button>
+    </div>
+    <div class="panel">
+     <h2>⬡ Materiais desta camada</h2>
+     <div id="materials"></div>
+    </div>
+   </aside>
+  </div>
+ </section>
+ <section class="panel" id="sobre">
+  <h2>Sobre o LayerCraft</h2>
+  <p class="muted">Planeje construções de Minecraft, visualize cada nível e confira os materiais necessários antes de construir no seu mundo.</p>
+  <p class="note">Projeto independente de MineDevs. Minecraft é uma marca da Mojang Studios.</p>
+ </section>
+</main>
+<footer>LAYERCRAFT by MineDevs · Construa bloco por bloco ⛏️</footer>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+
+const canvas=document.querySelector('#world');
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
+renderer.setClearColor(0x07131c,1);
+renderer.outputColorSpace=THREE.SRGBColorSpace;
 
 const scene=new THREE.Scene();
-scene.background=new THREE.Color(0x101820);
-const camera=new THREE.PerspectiveCamera(45,cena.clientWidth/cena.clientHeight,0.1,1000);
-camera.position.set(9,8,11);
-scene.add(new THREE.HemisphereLight(0xffffff,0x64745d,2));
-const light=new THREE.DirectionalLight(0xffffff,2);
-light.position.set(5,10,7);scene.add(light);
+scene.background=new THREE.Color(0x07131c);
+scene.add(new THREE.HemisphereLight(0xe1f7ff,0x53634c,2.1));
+const light=new THREE.DirectionalLight(0xffffff,2.6);
+light.position.set(8,15,10);scene.add(light);
+const camera=new THREE.PerspectiveCamera(40,1,.1,500);
+const world=new THREE.Group();scene.add(world);
 
-const group=new THREE.Group();scene.add(group);
-const geo=new THREE.BoxGeometry(1,1,1);
-const mats={
-madeira:new THREE.MeshLambertMaterial({color:0x986438}),
-folha:new THREE.MeshLambertMaterial({color:0x3c9b45}),
-pedra:new THREE.MeshLambertMaterial({color:0x858b91}),
-vidro:new THREE.MeshLambertMaterial({color:0x80d9ee,transparent:true,opacity:.55}),
-terra:new THREE.MeshLambertMaterial({color:0x79502e}),
-agua:new THREE.MeshLambertMaterial({color:0x328ee0}),
-telha:new THREE.MeshLambertMaterial({color:0x573b2b}),
-grama:new THREE.MeshLambertMaterial({color:0x62ad43})
+const palette={
+ 'Concreto branco':0xe4e4df,
+ 'Concreto cinza':0x555c61,
+ 'Tábuas de carvalho':0xa87543,
+ 'Madeira escura':0x553824,
+ 'Vidro':0x83c9d8,
+ 'Pedra':0x81858a,
+ 'Laje de pedra':0x626970,
+ 'Folhas de carvalho':0x387d32,
+ 'Grama':0x55983d,
+ 'Terra':0x795039,
+ 'Água':0x278fca,
+ 'Lanterna':0xffc65b,
+ 'Tronco':0x765034,
+ 'Folhas':0x33823c
 };
-let blocos=[],nivel=0,maxNivel=0,arrastando=false,px=0,py=0;
-
-function adicionar(x,y,z,tipo){
- const mesh=new THREE.Mesh(geo,mats[tipo]||mats.pedra);
- mesh.position.set(x,y,z);mesh.userData.nivel=y;
- group.add(mesh);blocos.push(mesh);
-}
-function iniciar(){
- group.clear();blocos=[];nivel=0;
- const tipo=document.getElementById('construcao').value;
- if(tipo==='casa'){
-  for(let x=-2;x<=2;x++)for(let z=-2;z<=2;z++)adicionar(x,0,z,'terra');
-  for(let y=1;y<=3;y++)for(let x=-2;x<=2;x++)for(let z=-2;z<=2;z++){
-   if(x===-2||x===2||z===-2||z===2){
-    let material=(y===2&&(x===-2||x===2)&&(z===0))?'vidro':'madeira';
-    if(y===1&&x===0&&z===-2)continue;
-    adicionar(x,y,z,material);
-   }
-  }
-  for(let x=-3;x<=3;x++)for(let z=-3;z<=3;z++)
-   if(Math.abs(x)+Math.abs(z)<=5)adicionar(x,4,z,'telha');
-  maxNivel=4;
- }else if(tipo==='torre'){
-  for(let y=0;y<=7;y++){
-   for(let x=-2;x<=2;x++)for(let z=-2;z<=2;z++)
-    if(x===-2||x===2||z===-2||z===2)adicionar(x,y,z,'pedra');
-   if(y===0)for(let x=-1;x<=1;x++)for(let z=-1;z<=1;z++)adicionar(x,y,z,'terra');
-  }
-  for(let x=-3;x<=3;x++)for(let z=-3;z<=3;z++)
-   if(Math.abs(x)===3||Math.abs(z)===3)adicionar(x,8,z,'pedra');
-  maxNivel=8;
- }else{
-  for(let x=-3;x<=3;x++)for(let z=-3;z<=3;z++)adicionar(x,0,z,'terra');
-  for(let x=-3;x<=3;x++)for(let z=-3;z<=3;z++)
-   if((x+z)%2===0&&Math.abs(x)<3&&Math.abs(z)<3)adicionar(x,1,z,'grama');
-  for(let z=-3;z<=3;z++)adicionar(0,1,z,'agua');
-  maxNivel=1;
- }
- atualizar();
-}
-function atualizar(){
- blocos.forEach(b=>b.visible=b.userData.nivel<=nivel);
- document.getElementById('info').textContent=
- 'Camada '+(nivel+1)+' de '+(maxNivel+1);
- const visiveis=blocos.filter(b=>b.userData.nivel===nivel);
- const contagem={};
- visiveis.forEach(b=>{
-  const nome=Object.keys(mats).find(k=>mats[k]===b.material)||'bloco';
-  contagem[nome]=(contagem[nome]||0)+1;
+const materials={};
+for(const [name,color] of Object.entries(palette)){
+ materials[name]=new THREE.MeshLambertMaterial({
+  color,transparent:name==='Vidro'||name==='Água',
+  opacity:name==='Vidro'?.48:1
  });
- document.getElementById('materiais').innerHTML=
- Object.entries(contagem).map(([n,q])=>q+' × '+n).join('<br>')||'Nenhum bloco nesta camada';
 }
-function mudar(n){nivel=Math.max(0,Math.min(maxNivel,nivel+n));atualizar()}
-function mostrarTudo(){nivel=maxNivel;atualizar()}
-renderer.domElement.addEventListener('pointerdown',e=>{arrastando=true;px=e.clientX;py=e.clientY});
-window.addEventListener('pointerup',()=>arrastando=false);
-window.addEventListener('pointermove',e=>{
- if(!arrastando)return;
- group.rotation.y+=(e.clientX-px)*.01;
- group.rotation.x+=(e.clientY-py)*.01;
- px=e.clientX;py=e.clientY;
-});
-renderer.domElement.addEventListener('wheel',e=>{
- camera.position.multiplyScalar(e.deltaY>0?1.1:.9);
-});
-function animar(){requestAnimationFrame(animar);renderer.render(scene,camera)}
-function redimensionar(){
- const w=cena.clientWidth,h=cena.clientHeight;
- camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h);
+const cube=new THREE.BoxGeometry(.98,.98,.98);
+let blocks=[],layer=0,maxLayer=0,angle=0,camDist=19;
+let dragging=false,lastX=0,lastY=0;
+
+function block(x,y,z,mat){
+ const mesh=new THREE.Mesh(cube,materials[mat]||materials.Pedra);
+ mesh.position.set(x,y,z);mesh.userData={layer:y,mat};
+ world.add(mesh);blocks.push(mesh);
 }
-window.addEventListener('resize',redimensionar);
-camera.lookAt(0,3,0);
-iniciar();animar();
+function floor(x1,x2,z1,z2,y,mat){
+ for(let x=x1;x<=x2;x++)for(let z=z1;z<=z2;z++)block(x,y,z,mat);
+}
+function house(){
+ // Ground, garden and pool
+ floor(-7,7,-5,6,0,'Grama');
+ floor(-2,0,3,5,0,'Concreto cinza');
+ floor(-2,0,3,5,1,'Água');
+ for(let x=-7;x<=7;x++)for(let z=-5;z<=6;z++)
+  if(Math.abs(x)===7||z===-5||z===6)block(x,1,z,'Folhas de carvalho');
+
+ // Ground floor
+ floor(-4,4,-3,2,1,'Concreto branco');
+ for(let y=2;y<=3;y++){
+  for(let x=-4;x<=4;x++){
+   block(x,y,-3,x===0&&y===2?'Vidro':'Tábuas de carvalho');
+   block(x,y,2,'Concreto branco');
+  }
+  for(let z=-2;z<=1;z++){
+   block(-4,y,z,'Concreto branco');
+   block(4,y,z,'Concreto branco');
+  }
+  for(let x=-3;x<=3;x++)block(x,y,-3,'Vidro');
+  for(let x=-3;x<=-1;x++)block(x,y,2,'Vidro');
+  for(let x=1;x<=3;x++)block(x,y,2,'Vidro');
+ }
+ // Upper floor
+ floor(-4,4,-2,2,4,'Tábuas de carvalho');
+ for(let y=5;y<=6;y++){
+  for(let x=-4;x<=4;x++){
+   block(x,y,-2,'Vidro');block(x,y,2,'Concreto branco');
+  }
+  for(let z=-1;z<=1;z++){
+   block(-4,y,z,'Concreto branco');block(4,y,z,'Concreto branco');
+  }
+  block(-4,y,-2,'Concreto branco');block(4,y,-2,'Concreto branco');
+ }
+ // Roof and dark modern frame
+ floor(-5,5,-3,3,7,'Concreto cinza');
+ for(let x=-5;x<=5;x++){
+  block(x,6,-3,'Concreto cinza');
+  block(x,6,3,'Concreto cinza');
+ }
+ for(let z=-3;z<=3;z++){
+  block(-5,6,z,'Concreto cinza');block(5,6,z,'Concreto cinza');
+ }
+ // Carport
+ floor(2,6,3,5,1,'Laje de pedra');
+ for(let y=2;y<=4;y++){block(6,y,3,'Concreto cinza');block(6,y,5,'Concreto cinza');}
+ floor(2,6,3,5,5,'Concreto cinza');
+ // Path and entrance details
+ floor(1,2,3,5,1,'Laje de pedra');
+ block(0,2,3,'Lanterna');block(-3,2,3,'Lanterna');
+}
+function tower(){
+ floor(-4,4,-4,4,0,'Pedra');
+ for(let y=1;y<=11;y++){
+  for(let x=-3;x<=3;x++)for(let z=-3;z<=3;z++)
+   if(Math.abs(x)===3||Math.abs(z)===3)block(x,y,z,'Pedra');
+  for(let x=-1;x<=1;x++){block(x,y,-3,'Vidro');block(x,y,3,'Vidro');}
+ }
+ floor(-4,4,-4,4,12,'Concreto cinza');
+ for(let x=-4;x<=4;x++)for(let z=-4;z<=4;z++)
+  if(Math.abs(x)===4||Math.abs(z)===4)block(x,13,z,'Concreto cinza');
+}
+function farm(){
+ floor(-5,5,-5,5,0,'Grama');
+ floor(-4,4,-4,4,1,'Terra');
+ for(let z=-4;z<=4;z++)block(0,1,z,'Água');
+ for(let x=-4;x<=4;x++)block(x,1,0,'Água');
+ for(let x=-4;x<=4;x++)for(let z=-4;z<=4;z++)
+  if(x!==0&&z!==0&&(x+z)%2===0)block(x,2,z,'Folhas');
+ for(let x=-5;x<=5;x++){
+  block(x,2,-5,'Tábuas de carvalho');
+  block(x,2,5,'Tábuas de carvalho');
+ }
+ for(let z=-5;z<=5;z++){
+  block(-5,2,z,'Tábuas de carvalho');
+  block(5,2,z,'Tábuas de carvalho');
+ }
+}
+function changeBuild(){
+ world.clear();blocks=[];layer=0;angle=0;
+ const type=document.querySelector('#build').value;
+ if(type==='house')house();
+ if(type==='tower')tower();
+ if(type==='farm')farm();
+ maxLayer=Math.max(...blocks.map(b=>b.userData.layer));
+ document.querySelector('#total').textContent=maxLayer+1;
+ fitCamera();update();
+}
+function update(){
+ for(const b of blocks)b.visible=b.userData.layer<=layer;
+ document.querySelector('#counter').textContent=(layer+1)+' de '+(maxLayer+1);
+ document.querySelector('#prev').disabled=layer===0;
+ document.querySelector('#next').disabled=layer===maxLayer;
+ document.querySelector('#layernote').textContent=
+  layer===0?'Camada da base.':layer===maxLayer?'Camada do topo.':'Camada '+(layer+1)+' da construção.';
+ const counts={};
+ blocks.filter(b=>b.userData.layer===layer).forEach(b=>{
+  counts[b.userData.mat]=(counts[b.userData.mat]||0)+1;
+ });
+ const list=document.querySelector('#materials');list.replaceChildren();
+ for(const [name,n] of Object.entries(counts)){
+  const row=document.createElement('div');row.className='material';
+  const sw=document.createElement('span');sw.className='swatch';
+  sw.style.background='#'+palette[name].toString(16).padStart(6,'0');
+  const label=document.createElement('span');label.textContent=name;
+  const amount=document.createElement('strong');amount.className='amount';amount.textContent=n;
+  row.append(sw,label,amount);list.append(row);
+ }
+ if(!Object.keys(counts).length)list.textContent='Nenhum material nesta camada.';
+}
+function changeLayer(n){layer=Math.max(0,Math.min(maxLayer,layer+n));update();}
+window.changeLayer=changeLayer;
+window.showAll=()=>{layer=maxLayer;update();};
+function fitCamera(){
+ const box=new THREE.Box3().setFromObject(world);
+ const center=box.getCenter(new THREE.Vector3());
+ world.position.sub(center);
+ camDist=Math.max(box.getSize(new THREE.Vector3()).length()*1.05,14);
+ camera.position.set(camDist*.8,camDist*.65,camDist*.9);
+ camera.lookAt(0,0,0);
+}
+function resize(){
+ const r=canvas.getBoundingClientRect();
+ if(!r.width||!r.height)return;
+ renderer.setSize(r.width,r.height,false);
+ camera.aspect=r.width/r.height;camera.updateProjectionMatrix();
+}
+function zoom(n){camDist*=n>0?1.15:.87;camDist=Math.max(7,Math.min(45,camDist));}
+window.zoom=zoom;
+function resetCamera(){angle=0;camDist=Math.max(14,camDist);}
+window.resetCamera=resetCamera;
+window.selectView=(v,el)=>{
+ document.querySelectorAll('.thumb').forEach(b=>b.classList.remove('active'));
+ el.classList.add('active');
+ angle=[0,Math.PI/2,Math.PI][v];
+};
+canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId);});
+canvas.addEventListener('pointermove',e=>{
+ if(!dragging)return;
+ angle+=(e.clientX-lastX)*.009;
+ world.rotation.x=Math.max(-.5,Math.min(.5,world.rotation.x+(e.clientY-lastY)*.004));
+ lastX=e.clientX;lastY=e.clientY;
+});
+canvas.addEventListener('pointerup',()=>dragging=false);
+canvas.addEventListener('pointercancel',()=>dragging=false);
+canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY>0?1:-1);},{passive:false});
+let pinch=0;
+canvas.addEventListener('touchmove',e=>{
+ if(e.touches.length===2){
+  const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+  if(pinch)zoom(d<pinch?1:-1);
+  pinch=d;
+ }
+},{passive:true});
+canvas.addEventListener('touchend',()=>pinch=0);
+
+function animate(){
+ requestAnimationFrame(animate);
+ world.rotation.y=angle;
+ const dir=new THREE.Vector3(.8,.65,.9).normalize();
+ camera.position.copy(dir.multiplyScalar(camDist));
+ camera.lookAt(0,0,0);
+ renderer.render(scene,camera);
+}
+new ResizeObserver(resize).observe(canvas);
+changeBuild();resize();animate();
 </script>
 </body>
 </html>
