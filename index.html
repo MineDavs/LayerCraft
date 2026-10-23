@@ -2,43 +2,75 @@
 <html lang="pt-br">
 <head>
 <meta charset="utf-8">
-<title>LayerCraft by MineDevs</title>
+<title>LayerCraft 3D by MineDevs</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#070707;color:#fff;font-family:monospace;overflow:hidden}
+body{background:#050505;color:#fff;font-family:monospace;overflow:hidden}
 body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);background-size:40px 40px;z-index:-1}
 #recepcao{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-#recepcao h1{font-size:58px;letter-spacing:10px;font-weight:900}
+#recepcao h1{font-size:56px;letter-spacing:10px;font-weight:900}
 #recepcao h1 span{color:transparent;-webkit-text-stroke:1px #fff}
-#recepcao .sub{color:#666;margin-top:8px;letter-spacing:4px;font-size:12px}
-.modos{display:flex;gap:15px;margin-top:35px;flex-wrap:wrap;justify-content:center;max-width:500px}
-.btn-modo{width:180px;height:110px;background:#101010;border:1px solid #222;border-radius:18px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:.35s}
-.btn-modo b{font-size:14px}.btn-modo small{color:#555;font-size:10px}
-.btn-modo:hover{border-color:#fff;background:#fff;color:#000;transform:translateY(-6px);box-shadow:0 0 30px rgba(255,255,255,.25)}
-.btn-breve{opacity:.25;cursor:not-allowed}
+.sub{color:#666;letter-spacing:4px;font-size:12px;margin-top:6px}
+.modos{display:flex;gap:15px;margin-top:30px;flex-wrap:wrap;justify-content:center}
+.btn-modo{width:180px;height:110px;background:#101010;border:1px solid #222;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:.3s}
+.btn-modo:hover{background:#fff;color:#000;transform:translateY(-5px)}
+.btn-breve{opacity:.25}
+
 #app{display:none;height:100vh;flex-direction:column}
-header{padding:14px 18px;border-bottom:1px solid #1a1a1a;display:flex;justify-content:space-between;align-items:center;background:#0a0a0a}
-#voltar{background:#111;border:1px solid #333;color:#fff;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:12px}
+header{padding:12px 16px;border-bottom:1px solid #1a1a1a;display:flex;justify-content:space-between;background:#0a0a0a}
 .wrap{flex:1;display:flex;overflow:hidden}
-.lista{width:230px;background:#0c0c0c;border-right:1px solid #1a1a1a;padding:12px;overflow:auto}
-.view{flex:1;overflow:auto;padding:15px;display:flex;flex-direction:column;align-items:center}
-.mats{width:250px;background:#0c0c0c;border-left:1px solid #1a1a1a;padding:12px;overflow:auto}
-.pill{width:100%;padding:10px;border:0;background:#171717;color:#bbb;border-radius:10px;margin-bottom:6px;text-align:left;cursor:pointer}
-.pill.ativo,.pill:hover{background:#fff;color:#000}
-#grid{display:grid;grid-template-columns:repeat(8,38px);gap:4px;margin:18px 0}
-.bloco{width:38px;height:38px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#000}
-.info-camadas{background:#111;border:1px solid #222;border-radius:12px;padding:10px 18px;margin-top:10px;display:flex;gap:15px;align-items:center;font-size:12px}
-.info-camadas b{color:#fff;font-size:14px}
-.barra{width:100px;height:6px;background:#222;border-radius:10px;overflow:hidden}
+.lista{width:220px;background:#0c0c0c;border-right:1px solid #1a1a1a;padding:12px;overflow:auto}
+.view{flex:1;display:flex;flex-direction:column;align-items:center;overflow:auto;padding:10px}
+.mats{width:230px;background:#0c0c0c;border-left:1px solid #1a1a1a;padding:12px;overflow:auto}
+.pill{width:100%;padding:10px;background:#171717;color:#aaa;border-radius:10px;margin-bottom:6px;border:0;text-align:left;cursor:pointer}
+.pill.ativo{background:#fff;color:#000}
+
+.info{margin:10px 0;background:#111;border:1px solid #222;border-radius:12px;padding:8px 16px;display:flex;gap:12px;align-items:center;font-size:11px}
+.barra{width:90px;height:5px;background:#222;border-radius:10px;overflow:hidden}
 .barra div{height:100%;background:#fff;transition:.3s}
-input[type=range]{width:260px;accent-color:#fff}
+input[type=range]{width:250px;accent-color:#fff}
+
+/* 3D */
+.scene{width:320px;height:320px;margin-top:10px;perspective:1000px;touch-action:none}
+.world{width:100%;height:100%;position:relative;transform-style:preserve-3d;transform:rotateX(60deg) rotateZ(45deg);transition:.4s}
+.block{position:absolute;width:32px;height:32px;transform-style:preserve-3d;animation:pop .2s}
+.block .face{position:absolute;width:32px;height:32px;border:1px solid rgba(0,0,0,.2)}
+.top{transform:translateZ(32px);filter:brightness(1.2)}
+.front{transform:rotateX(-90deg) translateZ(16px) translateY(16px);height:32px;top:16px;filter:brightness(.8)}
+.right{transform:rotateY(90deg) translateZ(16px) translateX(-16px);width:32px;left:16px;filter:brightness(.6)}
+
+@keyframes pop{0%{transform:translateZ(0) scale(0)}100%{transform:translateZ(var(--z)) scale(1)}}
+#grid2d{display:grid;grid-template-columns:repeat(8,36px);gap:4px;margin:15px 0}
+.mini{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#000}
+.btn3d{margin-top:8px;background:#1a1a1a;border:1px solid #333;color:#fff;padding:6px 12px;border-radius:20px;font-size:11px;cursor:pointer}
+.btn3d.ativo{background:#fff;color:#000}
 </style>
 </head>
 <body>
 
 <div id="recepcao">
-  <div style="font-size:10px;letter-spacing:6px;color:#333">BY MINEDEVS</div>
-  <h1>LAYER<span>CRAFT</span></h1>
-  <div class="sub">MINECRAFT LAYER BY LAYER</div>
-  
+<div style="font-size:10px;letter-spacing:6px;color:#333">BY MINEDEVS</div>
+<h1>LAYER<span>CRAFT</span></h1>
+<div class="sub">3D LAYER BY LAYER</div>
+<div class="modos">
+<div class="btn-modo" onclick="entrar('construir')"><b>🏗️ CONSTRUIR</b><small>4 builds</small></div>
+<div class="btn-modo" onclick="entrar('farm')"><b>⚙️ FARMS</b><small>4 farms</small></div>
+<div class="btn-modo btn-breve"><b>🔴 REDSTONE</b><small>em breve</small></div>
+<div class="btn-modo btn-breve"><b>🎒 CRAFT</b><small>em breve</small></div>
+</div>
+</div>
+
+<div id="app">
+<header><b>LAYERCRAFT 3D / by MineDevs / <span id="modoNome"></span></b><button onclick="voltar()" style="background:#111;border:1px solid #333;color:#fff;padding:5px 12px;border-radius:20px">← recepção</button></header>
+<div class="wrap">
+<div class="lista"><small style="color:#444">PROJETOS</small><div id="lista"></div></div>
+<div class="view">
+<h2 id="titulo" style="font-size:16px">Escolha um projeto</h2>
+<div class="info"><div>CAMADA <b id="num">-</b> DE <b id="total">-</b></div><div class="barra"><div id="progresso"></div></div><div id="totalTexto">- camadas</div></div>
+<div style="display:flex;gap:8px"><input type="range" id="slider" min="1" max="5" value="1"><button class="btn3d ativo" id="btn3d" onclick="toggle3d()">3D ON</button></div>
+
+<div class="scene" id="scene"><div class="world" id="world"></div></div>
+<div id="grid2d"></div>
+</div>
+<div class="mats"><b style="font-size:10px;letter-spacing:2px">MATERIAIS ATÉ AQUI</b><ul id="listaMat" style="margin-top:10px;list-style:none;color:#aaa;font-size:12px
